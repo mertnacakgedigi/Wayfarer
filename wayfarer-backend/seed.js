@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const db =  require('../models');
+const db =  require('./models');
 
 // MongoDB Connection String
 const DB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/express-cities';
@@ -44,7 +44,7 @@ mongoose.connect(DB_URI, {
   // Delete All Cities
 console.log('Deleting all cities...');
 
-City.deleteMany({}, (err, result) => {
+db.City.deleteMany({}, (err, result) => {
   if (err) {
     console.log(err);
     process.exit();
@@ -55,7 +55,7 @@ City.deleteMany({}, (err, result) => {
   // Create New Cities
   console.log('Creating new cities...');
 
-  City.create(cities, (err, newCities) => {
+  db.City.create(cities, (err, newCities) => {
     if (err) {
       console.log(err);
       process.exit();

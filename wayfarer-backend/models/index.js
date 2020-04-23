@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const dbUrl =  "mongodb://localhost:27017/wayfarer-backend/wayfarer"
+const dbUrl =  "mongodb://localhost:27017/wayfarer"
 
 
 mongoose.connect(dbUrl, {

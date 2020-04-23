@@ -1,4 +1,4 @@
-const mogoose = require('mongoose')
+const mongoose = require("mongoose");
 
 
 const UserSchema = mongoose.Schema({
@@ -14,9 +14,9 @@ const UserSchema = mongoose.Schema({
         type : String,
         required : true,
     },
-    timestamp : {
-        type : Date,
-        default : new Date()
+    createdAt: {
+        type: Date,
+        default: Date.now
     },
     city : {
         type : mongoose.Schema.Types.ObjectId,

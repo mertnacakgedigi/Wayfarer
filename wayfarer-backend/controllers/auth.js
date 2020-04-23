@@ -39,8 +39,8 @@ const register = (req, res) => {
 
 
                 const newUser = {
-                username = req.body.username,
-                password = hash
+                username : req.body.username,
+                password : hash
                 }
 
                 db.User.create(newUser, (err, savedUser)=> {
@@ -54,7 +54,7 @@ const register = (req, res) => {
 
 
 const login = (req ,res ) => {
-    if (!req.body.username || ! req.body.passsword) {
+    if (!req.body.username || !req.body.password) {
         return res.status(400).json({status : 400, message : 'Please enter your username and password'})
     }
 

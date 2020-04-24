@@ -13,10 +13,6 @@ const index = (req,res) => {
 }
 
 
-
-
 module.exports  = {
     index,
-    create,
-    show
 }

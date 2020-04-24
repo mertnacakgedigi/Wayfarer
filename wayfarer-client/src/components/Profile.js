@@ -1,5 +1,7 @@
 import React from 'react';
 import UserModel from '../models/user'
+import CityModel from '../models/city'
+import Select from "react-virtualized-select";
 import { Link, NavLink } from 'react-router-dom';
 
 export default class Profile extends React.Component {
@@ -10,17 +12,51 @@ export default class Profile extends React.Component {
 		this.state = {
     // store the default values for the fields in the register form
 		    id:this.props.currentUser,
-		    username: 'test',
-		    password: '',
+		    username: '',
 		    profile_name:'',
-		    city:'LA',
+		    city:'',
+		    currentCity:'',
+		    cities:[],
 		    readonly:true
   }
+  	UserModel.getUserInfo(this.props.currentUser)
+  		.then(res=>{
+  			console.log(res.data)
+  			this.setState({
+  				username:res.data[1].username,
+  				profile_name:res.data[1].profile_name,
+  				city:res.data[1].city,
+  				currentCity:{label:res.data[0].name,value:res.data[0]._id}
+  			})
+  		})
+  		.catch(err=>{
+  			console.log(err)
+  		})
+	CityModel.getAllCities()
+    .then(res=>{
+      let citiesArray=res.data.map(city=>(
+            {label:city.name,value:city._id}
+        ))
+        this.setState({
+          cities:citiesArray
+        })
+      })
+    .catch(err=>console.log(err))
+
+
+
+
 	}
 
 
 handleSubmit = (event) => {
     console.log("submit");
+    event.preventDefault()
+    UserModel.update(this.state)
+    	.then(res=>{
+    		this.props.history.push('/profile')
+    	})
+    	.catch(err=>console.log(err))
   }
 
   handleChange = (event) => {
@@ -29,6 +65,13 @@ handleSubmit = (event) => {
     this.setState({
         [event.target.name]: event.target.value
     })
+  }
+
+  handleSelectChange=(event)=>{
+    this.setState({
+      'city':event.value
+    })
+
   }
 
   handleEdit=(event)=>{
@@ -52,13 +95,13 @@ handleSubmit = (event) => {
 				  edit
 				</button>
 				)
-
+			const CitySelect=()=>(
+				<Select value={this.state.city} onChange={this.handleSelectChange}  options={this.state.cities} focusedOption={this.state.currentCity}  placeholder= 'city' />
+				)
 
 		return (
 			<div>
-			<p>
-			{this.props.currentUser}
-			</p>
+
 
 	<div className="container mt-4">
         <div className="row">
@@ -79,18 +122,12 @@ handleSubmit = (event) => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="name">Profile_name</label>
+                <label htmlFor="name">You name</label>
                 <input onChange={this.handleChange} className="form-control form-control-lg" type="text" id="profile_name" name="profile_name" value={this.state.profile_name} readOnly={this.state.readonly} />
               </div>
               <div className="form-group">
-{/*                <label htmlFor="name">City</label>
-               <input onChange={this.handleChange} className="form-control form-control-lg" type="text" id="city" name="city" value={this.state.city} />*/}
-{/*                  <select value={this.state.city}  onChange={this.handleSelectChange}>
-                  {options.map(e=>(
-                      <option value={e.value}>{e.lable}</option>
-                    ))}
-            </select>*/}
-                {/*<Select value={this.state.city} onChange={this.handleSelectChange}  options={options} placeholder= 'city'/>*/}
+              	{this.state.readonly?<label>{this.state.currentCity.label}</label>:<CitySelect />}
+
               </div>
              {this.state.readonly?null:<Button />}
              {this.state.readonly?<EditButton />:null}

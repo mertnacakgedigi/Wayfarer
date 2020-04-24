@@ -1,7 +1,9 @@
 import React from 'react';
 import UserModel from '../models/user'
 import CityModel from '../models/city'
+import PostModel from '../models/post'
 import Select from "react-virtualized-select";
+import Show from './Show'
 import { Link, NavLink } from 'react-router-dom';
 
 export default class Profile extends React.Component {
@@ -17,11 +19,11 @@ export default class Profile extends React.Component {
 		    city:'',
 		    currentCity:'',
 		    cities:[],
+        posts:[],
 		    readonly:true
   }
   	UserModel.getUserInfo(this.props.currentUser)
   		.then(res=>{
-  			console.log(res.data)
   			this.setState({
   				username:res.data[1].username,
   				profile_name:res.data[1].profile_name,
@@ -44,13 +46,25 @@ export default class Profile extends React.Component {
     .catch(err=>console.log(err))
 
 
+    PostModel.getPostById(this.props.currentUser)
+      .then(res=>{
+        console.log("post -------------------------")
+        console.log(res.data)
+        let postArray=res.data.map(post=>(
+            post.title
+          ))
+        this.setState({
+          posts:postArray
+        })
+      })
+      .catch(err=>console.log(err))
+
 
 
 	}
 
 
 handleSubmit = (event) => {
-    console.log("submit");
     event.preventDefault()
     UserModel.update(this.state)
     	.then(res=>{
@@ -134,6 +148,13 @@ handleSubmit = (event) => {
              {this.state.readonly?<EditButton />:null}
 
             </form>
+            <div>
+              {this.state.posts.map((post)=>(
+                <a href="#">{post}</a>
+              )) }
+            </div>
+
+
           </div>
         </div>
       </div>

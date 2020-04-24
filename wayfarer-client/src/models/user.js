@@ -8,8 +8,8 @@ export default class UserModel {
     return request
   }
 
-  static update(data){ // new update method
-    let request=axios.put(`${REACT_APP_API_URL}/auth/update`, data)
+  static verify(data){ // new verify method
+    let request=axios.get(`${REACT_APP_API_URL}/auth/verify`, data)
     return request
   }
   
@@ -23,5 +23,13 @@ export default class UserModel {
   static logout() {
     let request = axios.delete(`${REACT_APP_API_URL}/auth/logout`, { withCredentials: true })
     return request
+  }
+
+  static update(data){
+      //put method
+  }
+
+  static getUserInfo(data){
+    //get method
   }
 }

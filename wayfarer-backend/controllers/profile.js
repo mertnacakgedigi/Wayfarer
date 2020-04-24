@@ -18,7 +18,7 @@ const show = (req,res) => {
 const updateProfile = (req,res) => {
     db.User.findByIdAndUpdate(req.params.id,req.body, {new : true},(err,updatedProfile)=> {
         if (err) return err
-
+    
         res.json(updatedProfile)
     })
 }

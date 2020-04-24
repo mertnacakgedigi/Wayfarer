@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import UserModel from '../models/user'
-import ListBox from 'react-listbox';
+//import Select from 'react-select';
+import Select from "react-virtualized-select";
 
 class Register extends Component {
   state = {
     // store the default values for the fields in the register form
     username: '',
-    email: '',
     password: '',
     profile_name:'',
     city:''
@@ -19,6 +19,12 @@ class Register extends Component {
     this.setState({
         [event.target.name]: event.target.value
     })
+  }
+  handleSelectChange=(event)=>{
+    this.setState({
+      'city':event.value
+    })
+
   }
 
   // handles submit event when the user submits the form: handleSubmit()
@@ -41,9 +47,9 @@ class Register extends Component {
 
   render() {
     const options = [ //hardcode city, will be change
-  { label: 'SF', value: 'SF' },
-  { label: 'LA', value: 'LA' },
-  { label: 'Other', value: 'Other' },
+  { label: 'SanF', value: 'SF' },
+  { label: 'losA', value: 'LA' },
+  { label: 'Others', value: 'Other' },
 ];
     return (
       <div className="container mt-4">
@@ -71,8 +77,14 @@ class Register extends Component {
                 <input onChange={this.handleChange} className="form-control form-control-lg" type="text" id="profile_name" name="profile_name" value={this.state.profile_name} />
               </div>
               <div className="form-group">
-                <label htmlFor="name">City</label>
-               <input onChange={this.handleChange} className="form-control form-control-lg" type="text" id="city" name="city" value={this.state.city} />
+{/*                <label htmlFor="name">City</label>
+               <input onChange={this.handleChange} className="form-control form-control-lg" type="text" id="city" name="city" value={this.state.city} />*/}
+{/*                  <select value={this.state.city}  onChange={this.handleSelectChange}>
+                  {options.map(e=>(
+                      <option value={e.value}>{e.lable}</option>
+                    ))}
+            </select>*/}
+                <Select value={this.state.city} onChange={this.handleSelectChange}  options={options} placeholder= 'city'/>
               </div>
               <button className="btn btn-primary float-right" type="submit">Register</button>
             </form>

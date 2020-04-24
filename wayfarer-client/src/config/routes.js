@@ -9,7 +9,7 @@ import Login from '../components/Login'
 export default (props) => (
   <Switch>
     <Route exact path="/" component={ Home } />
-<Route path="/profile" component={ Profile } />
+
     <Route path="/login" render={ (routeProps) => {
       // An example of adding props to a component rendered by react router
       return <Login 
@@ -18,6 +18,13 @@ export default (props) => (
                 setCurrentUser={props.setCurrentUser}
               /> 
     } } />
+    <Route path="/profile" render={(routeProps)=>{
+      return <Profile 
+                { ...routeProps }
+                currentUser={props.currentUser}
+                setCurrentUser={props.setCurrentUser}
+              /> 
+    }} />
     <Route path="/register" component={ Register } />
     <Route path="/cities" component={Cities} />
   </Switch>

@@ -37,16 +37,20 @@ const register = (req, res) => {
                     message : `Hash errror ${err}`
                 })
 
-
                 const newUser = {
                 username : req.body.username,
-                password : hash
+                password : hash,
+                profile_name : req.body.profile_name,
+                city : req.body.city
                 }
 
                 db.User.create(newUser, (err, savedUser)=> {
                  if(err)  return res.status(510).json({status:510, message : `There is a problem with creatin user ${err}`})
-                 return res.status(200).json({status : 200, message : `${savedUser.username} register`})
-                 })
+                 
+                 res.json(savedUser)
+                        
+                })
+
             })
         })
     })

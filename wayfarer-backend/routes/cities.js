@@ -4,9 +4,12 @@ const ctrl = require('../controllers')
 
 
 
-router.post('/cities',ctrl.city.create)
 
+router.get('/cities',ctrl.city.index)
 router.get('/profile/:id',ctrl.profile.show)
+
+
+router.put('/profile/:id',ctrl.profile.updateProfile)
 
 
 

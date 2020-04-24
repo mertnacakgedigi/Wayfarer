@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const db =  require('./models');
 
 // MongoDB Connection String
-const DB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/express-cities';
+const DB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/wayfarer';
 
 // Connect MongoDB
 mongoose.connect(DB_URI, {

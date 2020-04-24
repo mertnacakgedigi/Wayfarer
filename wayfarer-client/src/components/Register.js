@@ -1,16 +1,27 @@
 import React, { Component } from 'react'
 import UserModel from '../models/user'
+import CityModel from '../models/city'
 //import Select from 'react-select';
 import Select from "react-virtualized-select";
 
 class Register extends Component {
-  state = {
+  constructor(props) {
+    super(props);
+    this.state = {
     // store the default values for the fields in the register form
     username: '',
     password: '',
     profile_name:'',
-    city:''
+    city:'',
+    cities:[]
   }
+  let citiesArray=CityModel.getAllCities()
+  console.log(citiesArray)
+  this.setState({
+    cities:citiesArray
+  })
+  }
+
 
   // handles changes made to the form fields: handleChange()
   handleChange = (event) => {
@@ -51,6 +62,8 @@ class Register extends Component {
   { label: 'losA', value: 'LA' },
   { label: 'Others', value: 'Other' },
 ];
+  console.log(this.state.cities)
+
     return (
       <div className="container mt-4">
         <div className="row">

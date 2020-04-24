@@ -49,6 +49,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/api/v1/auth', routes.auth)
+app.use('api/v1/cities',routes.cities)
 
 
 

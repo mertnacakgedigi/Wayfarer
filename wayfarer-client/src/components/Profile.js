@@ -40,12 +40,7 @@ handleSubmit = (event) => {
 
 
 
-test_user={
-	username:'test',
-	profile_name:'',
-	city:'LA'
 
-}
 
 	render() {
 			const Button = () => (

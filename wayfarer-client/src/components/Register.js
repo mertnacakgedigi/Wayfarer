@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Modal from 'react-modal';
 import UserModel from '../models/user'
 import CityModel from '../models/city'
 //import Select from 'react-select';
@@ -66,6 +67,8 @@ class Register extends Component {
   console.log(this.state.cities)
 
     return (
+
+
       <div className="container mt-4">
         <div className="row">
           <div className="col-md-4 offset-md-4">
@@ -105,6 +108,7 @@ class Register extends Component {
           </div>
         </div>
       </div>
+
     );
   }
 }

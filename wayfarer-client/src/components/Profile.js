@@ -54,9 +54,10 @@ handleSubmit = (event) => {
     event.preventDefault()
     UserModel.update(this.state)
     	.then(res=>{
-    		this.props.history.push('/profile')
+    		window.location.reload(false);
     	})
     	.catch(err=>console.log(err))
+        event.preventDefault()
   }
 
   handleChange = (event) => {

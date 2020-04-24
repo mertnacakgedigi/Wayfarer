@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+//import Modal from 'react-modal';
+import { Modal } from 'react-bootstrap';
 import UserModel from '../models/user'
 import CityModel from '../models/city'
 //import Select from 'react-select';
@@ -13,7 +15,8 @@ class Register extends Component {
     password: '',
     profile_name:'',
     city:'',
-    cities:[]
+    cities:[],
+    showModal:false
   }
   let citiesArray=CityModel.getAllCities()
     .then(res=>{
@@ -26,7 +29,7 @@ class Register extends Component {
       })
     .catch(err=>console.log(err))
   }
-
+ 
 
   // handles changes made to the form fields: handleChange()
   handleChange = (event) => {
@@ -54,11 +57,16 @@ class Register extends Component {
           username: '',
           password: '',
           profile_name:'',
-          city:''
+          city:'',
+          showModal:true
         })
         this.props.history.push('/login')
       })
       .catch(err => console.log(err))
+  }
+
+  handleCloseModal () {
+    this.setState({ showModal: false });
   }
 
   render() {
@@ -66,6 +74,9 @@ class Register extends Component {
   console.log(this.state.cities)
 
     return (
+
+      <Modal show>
+
       <div className="container mt-4">
         <div className="row">
           <div className="col-md-4 offset-md-4">
@@ -105,6 +116,8 @@ class Register extends Component {
           </div>
         </div>
       </div>
+      </Modal>
+
     );
   }
 }

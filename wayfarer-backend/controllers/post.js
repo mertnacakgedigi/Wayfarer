@@ -12,9 +12,18 @@ const createPost = (req,res) => {
     })
 }
 
+const showSinglePost = (req, res) => {
+    db.Post.findById(req.params.id,(err,newPost)=>{
+        if (err) {
+            return res.status(400).json({status: 400, error: 'Something went wrong, please try again'});
+          }      
+        res.json(newPost)
+    })
+}
 
 
-const showPost = (req, res) =>{
+
+const showUserPost = (req, res) =>{
     db.Post.find({user : req.params.id}, (err,userPosts) =>{ 
         if (err) {
             return res.status(400).json({status: 400, error: 'Something went wrong, please try again'});
@@ -27,5 +36,6 @@ const showPost = (req, res) =>{
 
 module.exports  = {
     createPost,
-    showPost
+    showSinglePost,
+    showUserPost,
 }

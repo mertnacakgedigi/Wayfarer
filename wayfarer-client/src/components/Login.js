@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import { Modal } from 'react-bootstrap';
 import UserModel from '../models/user'
 
 class Login extends Component {
   state = {
     username: '',
     password: '',
+    show:true
   }
 
   handleChange = (event) => {
@@ -22,10 +24,20 @@ class Login extends Component {
       })
       .catch((err) => console.log(err))
   }
+  handleClose=()=>{
+  this.setState({
+    show:false
+  })
+}
 
   render() {
     // console.log('Hello From Render', this.state.address && this.state.address.street);
+
     return (
+           <Modal show={this.state.show} onHide={this.handleClose}>
+      <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
       <div className="container mt-4">
         <div className="row">
           <div className="col-md-4 offset-md-4">
@@ -44,6 +56,7 @@ class Login extends Component {
           </div>
         </div>
       </div>
+      </Modal>
     )
   }
 }

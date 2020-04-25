@@ -3,8 +3,11 @@ import UserModel from '../models/user'
 import CityModel from '../models/city'
 import PostModel from '../models/post'
 import Select from "react-virtualized-select";
-import Show from './Show'
+//import Show from './Show'
+import { Modal } from 'react-bootstrap';
 import { Link, NavLink } from 'react-router-dom';
+
+
 
 export default class Profile extends React.Component {
 	
@@ -20,7 +23,9 @@ export default class Profile extends React.Component {
 		    currentCity:'',
 		    cities:[],
         posts:[],
-		    readonly:true
+        select:'',
+		    readonly:true,
+        show:false
   }
   	UserModel.getUserInfo(this.props.currentUser)
   		.then(res=>{
@@ -50,11 +55,12 @@ export default class Profile extends React.Component {
       .then(res=>{
         console.log("post -------------------------")
         console.log(res.data)
-        let postArray=res.data.map(post=>(
-            post.title
-          ))
+        // let postArray=res.data.map(post=>(
+        //     post.title
+        //   ))
         this.setState({
-          posts:postArray
+          //posts:postArray
+          posts:res.data
         })
       })
       .catch(err=>console.log(err))
@@ -96,6 +102,25 @@ handleSubmit = (event) => {
   	})
   }
 
+  handleClick=(event)=>{
+    console.log(event.target.id)
+    event.preventDefault()
+
+    console.log("here ----------------")
+    this.setState({
+      select:event.target.id,
+      show:true
+    })
+    return(<h1>inside click</h1>)
+
+  }
+
+  handleClose=()=>{
+  this.setState({
+    show:false
+  })
+}
+
 
 
 
@@ -113,6 +138,19 @@ handleSubmit = (event) => {
 			const CitySelect=()=>(
 				<Select value={this.state.city} onChange={this.handleSelectChange}  options={this.state.cities} focusedOption={this.state.currentCity}  placeholder= 'city' />
 				)
+      const Show=(props)=>(
+        <Modal show={this.state.show} onHide={this.handleClose}>
+      <h2>{props.title}</h2>
+    
+      <div>{props.content}</div>
+      {/*<h1>Test Modal</h1>*/}
+     
+
+    </Modal>
+      )
+
+       
+
 
 		return (
 			<div>
@@ -150,14 +188,18 @@ handleSubmit = (event) => {
             </form>
             <div>
               {this.state.posts.map((post)=>(
-                <a href="#">{post}</a>
+                <>
+                <a id={post._id} href="#" onClick={this.handleClick}>{post.title}<br/></a>
+                {this.state.select==post._id?<Show title={post.title} content={post.content}/>:null}
+               
+                </>
               )) }
             </div>
-
 
           </div>
         </div>
       </div>
+      
       </div>
 		);
 	}

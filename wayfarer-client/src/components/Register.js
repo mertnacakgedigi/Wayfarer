@@ -16,7 +16,8 @@ class Register extends Component {
     profile_name:'',
     city:'',
     cities:[],
-    showModal:false
+    show:true
+    
   }
   let citiesArray=CityModel.getAllCities()
     .then(res=>{
@@ -28,6 +29,10 @@ class Register extends Component {
         })
       })
     .catch(err=>console.log(err))
+
+
+
+
   }
  
 
@@ -60,14 +65,21 @@ class Register extends Component {
           city:'',
           showModal:true
         })
-        this.props.history.push('/login')
+        this.props.history.push('/')
       })
       .catch(err => console.log(err))
   }
 
-  handleCloseModal () {
-    this.setState({ showModal: false });
-  }
+  
+handleClose=()=>{
+  this.setState({
+    show:false
+  })
+}
+
+
+
+
 
   render() {
    
@@ -75,7 +87,10 @@ class Register extends Component {
 
     return (
 
-      <Modal show>
+      <Modal show={this.state.show} onHide={this.handleClose}>
+      <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
 
       <div className="container mt-4">
         <div className="row">

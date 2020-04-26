@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
 import CityModel from '../models/city';
+import PostModel from '../models/post';
+
+const TestOutPut=()=>(
+	<h1>Test output</h1>
+	)
 
 export default class Cities extends React.Component {
 
@@ -10,7 +15,11 @@ export default class Cities extends React.Component {
 		this.state={
 			cities:[],
 			selectCity:'',
-			showNew:false
+			selectPost:'',
+			post_title:'',
+			post_content:'',
+			showNew:false,
+			showEdit:false
 		}
 	CityModel.getAllCities()
     .then(res=>{
@@ -28,7 +37,7 @@ export default class Cities extends React.Component {
 	}
 
 	handleClick=(city)=>{
-		console.log(city)
+		//console.log(city)
 		this.setState({
 			selectCity:city
 		})
@@ -46,9 +55,78 @@ handleAddButton=()=>{
 	})
 }
 
-handleAddPostSubmit=()=>{
+handleChange = (event) => {
+    // console.log(event)
+    // set state with the value from the input
+    this.setState({
+        [event.target.name]: event.target.value
+    })
+    event.preventDefault()
+  }
 
-	
+
+
+
+
+handleAddPostSubmit=(event)=>{
+	 event.preventDefault()
+	 console.log(this.props.currentUser)
+	 let data={
+	 	cityId:this.state.selectCity._id,
+	 	title:this.state.post_title,
+	 	content:this.state.post_content,
+	 	user:this.props.currentUser
+	 }
+	 PostModel.addPost(data)
+	 	.then(res=>{
+	 		window.location.reload(false);
+	 	})
+	 	.catch(err=>console.log(err))
+
+}
+
+handleEditClick=(post)=>{
+	//console.log("handleEditClick")
+
+	this.setState({
+		selectPost:post,
+		post_title:post.title,
+		post_content:post.content,
+		showEdit:true
+	})
+}
+handleEditClose=()=>{
+	this.setState({
+		showEdit:false
+	})
+}
+
+handleEditSubmit=(event)=>{
+	event.preventDefault()
+	let data={
+		cityId:this.state.selectCity._id,
+		postId:this.state.selectPost._id,
+	 	title:this.state.post_title,
+	 	content:this.state.post_content,
+	 	user:this.props.currentUser
+	}
+	PostModel.updatePost(data)
+		.then(res=>{
+			window.location.reload(false);
+		})
+		.catch(err=>console.log(err))
+}
+
+handleDelete=(post)=>{
+	let data={
+		cityId:this.state.selectCity._id,
+		postId:post._id
+	}
+	PostModel.deletePost(data)
+		.then(res=>{
+			window.location.reload(false);
+		})
+		.catch(err=>console.log(err))
 }
 
 
@@ -65,14 +143,42 @@ handleAddPostSubmit=()=>{
 					     
 					    </div>
 					    <div class="col-sm">
-					      Has {this.state.selectCity.posts.length} {this.state.selectCity.posts.length === 1 ? ' review' : ' reviews'} 
+					      Has {this.state.selectCity.posts.length} {this.state.selectCity.posts.length === 1 ? ' post' : ' posts'} 
 					    </div>
 					    
-					{/*will loop all the posts here*/}
+
 					  </div>
 					  <button onClick={this.handleAddButton}>
 							  add post
 							</button>
+
+												{/*will loop all the posts here*/}
+					<div>
+						{this.state.selectCity.posts.map((post)=>(
+								<div class="container" >
+									<div class="row">
+										<div class="col-6 col-md-4" id={post.user}>
+											<h5>username</h5>
+										
+										</div>
+										<div class="col-12 col-md-8" id={post._id}>
+											<article >
+											<h5>{post.title}</h5>
+											<p>
+											{post.content}
+											</p>
+											<button id="editBtn" class="btn btn-sm btn-info info-review float-right mr-2" type="button" onClick={()=>{this.handleEditClick(post)}}>Edit post</button>
+						          			<button id="deleteBtn" class="btn btn-sm btn-danger delete-review float-right mr-2" type="button" onClick={()=>{this.handleDelete(post)}}>Delete post</button>
+											</article>
+											
+										</div>
+									</div>
+
+								</div>
+
+							))}
+
+					</div>
 					  
 					</div>
 
@@ -85,11 +191,11 @@ handleAddPostSubmit=()=>{
 		          <h4 className="mb-4">New review</h4>
 		          <div className="form-group">
 		            <label for="title">Title</label>
-		            <input id="title" type="text" name="title" className="form-control form-control-lg" />
+		            <input id="title" type="text" name="post_title" className="form-control form-control-lg" onChange={this.handleChange} value={this.state.post_title} />
 		          </div>
 		          <div className="form-group">
 		            <label for="content">Content</label>
-		            <textarea id="content" name="content" className="form-control form-control-lg" rows="10"></textarea>
+		            <textarea id="content" name="post_content" className="form-control form-control-lg" rows="10" onChange={this.handleChange} value={this.state.post_content}></textarea>
 		          </div>
 		          <button type="submit" className="btn btn-primary float-right">Add New post</button>
 		        </div>
@@ -98,6 +204,28 @@ handleAddPostSubmit=()=>{
 
 			</Modal>
 
+
+			)
+
+		const EditPost=()=>(
+			<Modal show={this.state.showEdit} onHide={this.handleEditClose}>
+				<form id="editPost" className="row" onSubmit={this.handleEditSubmit}>
+		        <div className="col-md-6 offset-md-3">
+		          <h4 className="mb-4">Edit Post</h4>
+		          <div className="form-group">
+		            <label for="title">Title</label>
+		            <input id="edit_title" type="text" name="post_title" className="form-control form-control-lg" onChange={this.handleChange} value={this.state.post_title} />
+		          </div>
+		          <div className="form-group">
+		            <label for="content">Content</label>
+		            <textarea id="edit_content" name="post_content" className="form-control form-control-lg" rows="10" onChange={this.handleChange} value={this.state.post_content}></textarea>
+		          </div>
+		          <button type="submit" className="btn btn-primary float-right">Edit post</button>
+		        </div>
+		      </form>
+
+
+			</Modal>
 
 			)
 
@@ -111,7 +239,7 @@ handleAddPostSubmit=()=>{
 					  <div className="row gamerow" id="#">
 
 					    <div className="col-sm">
-					     <h2> <a className="nav-link" id={city._id} href="#" onClick={()=>{this.handleClick(city)}}>{city.name}</a></h2>
+					     <h2> <a className="nav-link" id={city._id} href="#" onClick={()=>{ this.handleClick(city)}}>{city.name}</a></h2>
 					     
 					    </div>
 					{/*    <div class="col-sm">
@@ -128,6 +256,7 @@ handleAddPostSubmit=()=>{
 			  {this.state.selectCity?<CityDetail />:null}
 			    </div>
 			    <AddPost />
+			    <EditPost />
 			</div>
 		);
 	}

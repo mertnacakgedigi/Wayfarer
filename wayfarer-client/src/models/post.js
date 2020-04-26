@@ -8,4 +8,17 @@ export default class PostModel {
     return request
 		}
 
+	static addPost(data){
+		let request=axios.post(`${REACT_APP_API_URL}/cities/${data.cityId}/posts`,data)
+		return request
+	}
+	static updatePost(data){
+		let request=axios.put(`${REACT_APP_API_URL}/cities/${data.cityId}/posts/${data.postId}`,data)
+		return request
+	}
+	static deletePost(data){
+		let request=axios.delete(`${REACT_APP_API_URL}/cities/${data.cityId}/posts/${data.postId}`,data)
+		return request
+	}
+
 	}

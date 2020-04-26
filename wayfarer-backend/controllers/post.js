@@ -27,6 +27,7 @@ const createPost = (req,res) => {
     })
 }
 
+<<<<<<< HEAD
 const updatePost=(req,res)=>{
     db.City.findById(req.params.cityId,(err,foundCity)=>{
         if(err){
@@ -85,12 +86,20 @@ const deletePost=(req,res)=>{
         })
     })
 
+=======
+const showSinglePost = (req, res) => {
+    db.Post.findById(req.params.id,(err,newPost)=>{
+        if (err) {
+            return res.status(400).json({status: 400, error: 'Something went wrong, please try again'});
+          }      
+        res.json(newPost)
+>>>>>>> submaster
     })
 }
 
 
 
-const showPost = (req, res) =>{
+const showUserPost = (req, res) =>{
     db.Post.find({user : req.params.id}, (err,userPosts) =>{ 
         if (err) {
             return res.status(400).json({status: 400, error: 'Something went wrong, please try again'});
@@ -106,4 +115,7 @@ module.exports  = {
     showPost,
     updatePost,
     deletePost
+    showSinglePost,
+    showUserPost,
+
 }

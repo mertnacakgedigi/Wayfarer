@@ -2,6 +2,7 @@ import React from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import HomepageCard from './HomepageCard';
+import './Home.css';
 
 const Home = () => {
   let cardInfo =[ {
@@ -9,7 +10,7 @@ const Home = () => {
       info: "From Arctic to Antartica, From America to Asia.."
   },
   {
-    title: "Share your travel experience",
+    title: "Share Travel Tips",
     info: "From Arctic to Antartica, From America to Asia.."
   },  
   {

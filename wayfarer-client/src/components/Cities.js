@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
+
+import AddPost from './AddPost';
+import EditPost from './EditPost';
+
 import CityModel from '../models/city';
 import PostModel from '../models/post';
 
@@ -60,6 +64,7 @@ handleAddButton=()=>{
 handleChange = (event) => {
     // console.log(event)
     // set state with the value from the input
+
     this.setState({
         [event.target.name]: event.target.value
     })
@@ -72,7 +77,6 @@ handleChange = (event) => {
 
 handleAddPostSubmit=(event)=>{
 	 event.preventDefault()
-	 console.log(this.props.currentUser)
 	 let data={
 	 	cityId:this.state.selectCity._id,
 	 	title:this.state.post_title,
@@ -176,10 +180,10 @@ handleDelete=(post)=>{
 											{post.content}
 											</p>
 											{post.user===this.props.currentUser?
-											<>
+											<div>
 											<button id="editBtn" class="btn btn-sm btn-info info-review float-right mr-2" type="button" onClick={()=>{this.handleEditClick(post)}}>Edit post</button>
 						          			<button id="deleteBtn" class="btn btn-sm btn-danger delete-review float-right mr-2" type="button" onClick={()=>{if (window.confirm('Are you sure you wish to delete this post?')) this.handleDelete(post)}}>Delete post</button>
-											</>
+											</div>
 											:null
 											}
 											</article>
@@ -197,50 +201,50 @@ handleDelete=(post)=>{
 
 		)
 
-		const AddPost=()=>(
-			<Modal show={this.state.showNew} onHide={this.handleAddClose}>
-				<form id="newPost" className="row" onSubmit={this.handleAddPostSubmit}>
-		        <div className="col-md-6 offset-md-3">
-		          <h4 className="mb-4">New review</h4>
-		          <div className="form-group">
-		            <label for="title">Title</label>
-		            <input id="title" type="text" name="post_title" className="form-control form-control-lg" onChange={this.handleChange} value={this.state.post_title} />
-		          </div>
-		          <div className="form-group">
-		            <label for="content">Content</label>
-		            <textarea id="content" name="post_content" className="form-control form-control-lg" rows="10" onChange={this.handleChange} value={this.state.post_content}></textarea>
-		          </div>
-		          <button type="submit" className="btn btn-primary float-right">Add New post</button>
-		        </div>
-		      </form>
+		// const AddPost=()=>(
+		// 	<Modal show={this.state.showNew} onHide={this.handleAddClose}>
+		// 		<form id="newPost" className="row" onSubmit={this.handleAddPostSubmit}>
+		//         <div className="col-md-6 offset-md-3">
+		//           <h4 className="mb-4">New review</h4>
+		//           <div className="form-group">
+		//             <label for="title">Title</label>
+		//             <input id="title" type="text" name="post_title" className="form-control form-control-lg" onChange={this.handleChange} value={this.state.post_title} />
+		//           </div>
+		//           <div className="form-group">
+		//             <label for="content">Content</label>
+		//             <textarea id="content" name="post_content" className="form-control form-control-lg" rows="10" onChange={this.handleChange} value={this.state.post_content}></textarea>
+		//           </div>
+		//           <button type="submit" className="btn btn-primary float-right">Add New post</button>
+		//         </div>
+		//       </form>
 
 
-			</Modal>
+		// 	</Modal>
 
 
-			)
+		// 	)
 
-		const EditPost=()=>(
-			<Modal show={this.state.showEdit} onHide={this.handleEditClose}>
-				<form id="editPost" className="row" onSubmit={this.handleEditSubmit}>
-		        <div className="col-md-6 offset-md-3">
-		          <h4 className="mb-4">Edit Post</h4>
-		          <div className="form-group">
-		            <label for="title">Title</label>
-		            <input id="edit_title" type="text" name="post_title" className="form-control form-control-lg" onChange={this.handleChange} value={this.state.post_title} />
-		          </div>
-		          <div className="form-group">
-		            <label for="content">Content</label>
-		            <textarea id="edit_content" name="post_content" className="form-control form-control-lg" rows="10" onChange={this.handleChange} value={this.state.post_content}></textarea>
-		          </div>
-		          <button type="submit" className="btn btn-primary float-right">Edit post</button>
-		        </div>
-		      </form>
+		// const EditPost=()=>(
+		// 	<Modal show={this.state.showEdit} onHide={this.handleEditClose}>
+		// 		<form id="editPost" className="row" onSubmit={this.handleEditSubmit}>
+		//         <div className="col-md-6 offset-md-3">
+		//           <h4 className="mb-4">Edit Post</h4>
+		//           <div className="form-group">
+		//             <label for="title">Title</label>
+		//             <input id="edit_title" type="text" name="post_title" className="form-control form-control-lg" onChange={this.handleChange} value={this.state.post_title} />
+		//           </div>
+		//           <div className="form-group">
+		//             <label for="content">Content</label>
+		//             <textarea id="edit_content" name="post_content" className="form-control form-control-lg" rows="10" onChange={this.handleChange} value={this.state.post_content}></textarea>
+		//           </div>
+		//           <button type="submit" className="btn btn-primary float-right">Edit post</button>
+		//         </div>
+		//       </form>
 
 
-			</Modal>
+		// 	</Modal>
 
-			)
+		// 	)
 
 
 		return (
@@ -255,9 +259,6 @@ handleDelete=(post)=>{
 					     <h2> <a className="nav-link" id={city._id} href="#" onClick={()=>{ this.handleClick(city)}}>{city.name}</a></h2>
 					     
 					    </div>
-					{/*    <div class="col-sm">
-					      Has {city.posts.length} {city.posts.length === 1 ? ' review' : ' reviews'} 
-					    </div>*/}
 					  </div>
 					  
 					</div>
@@ -268,8 +269,8 @@ handleDelete=(post)=>{
 				<div className="col">
 			  {this.state.selectCity?<CityDetail />:null}
 			    </div>
-			   <AddPost />
-			    <EditPost />
+			   <AddPost showNew={this.state.showNew} handleAddClose={this.handleAddClose} handleAddPostSubmit={this.handleAddPostSubmit} handleChange={this.handleChange} post_title={this.state.post_title} post_content={this.state.post_content} />
+			    <EditPost showEdit={this.state.showEdit} handleEditClose={this.handleEditClose} handleEditSubmit={this.handleEditSubmit} handleChange={this.handleChange} post_title={this.state.post_title} post_content={this.state.post_content}/>
 			</div>
 		);
 	}

@@ -1,5 +1,6 @@
 module.exports = {
     auth : require('./auth'),
     city : require('./city'),
-    profile : require('./profile')
+    profile : require('./profile'),
+    post: require('./post.js')
 }

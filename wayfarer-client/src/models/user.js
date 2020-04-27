@@ -27,9 +27,14 @@ export default class UserModel {
 
   static update(data){
       //put method
+      console.log(data)
+    let request = axios.put(`${REACT_APP_API_URL}/profile/${data.id}`,data)
+    return request
   }
 
   static getUserInfo(data){
     //get method
+    let request = axios.get(`${REACT_APP_API_URL}/profile/${data}`)
+    return request
   }
 }

@@ -26,6 +26,12 @@ export default (props) => (
               /> 
     }} />
     <Route path="/register" component={ Register } />
-    <Route path="/cities" component={Cities} />
+    <Route path="/cities" render={(routeProps)=>{
+      return <Cities 
+                { ...routeProps }
+                currentUser={props.currentUser}
+                setCurrentUser={props.setCurrentUser}
+      />
+    }} />
   </Switch>
 )

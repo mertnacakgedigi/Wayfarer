@@ -1,6 +1,13 @@
 import React from 'react';
 import UserModel from '../models/user'
+import CityModel from '../models/city'
+import PostModel from '../models/post'
+import Select from "react-virtualized-select";
+//import Show from './Show'
+import { Modal } from 'react-bootstrap';
 import { Link, NavLink } from 'react-router-dom';
+
+
 
 export default class Profile extends React.Component {
 	
@@ -10,17 +17,67 @@ export default class Profile extends React.Component {
 		this.state = {
     // store the default values for the fields in the register form
 		    id:this.props.currentUser,
-		    username: 'test',
-		    password: '',
+		    username: '',
 		    profile_name:'',
-		    city:'LA',
-		    readonly:true
+		    city:'',
+		    currentCity:'',
+		    cities:[],
+        posts:[],
+        select:'',
+		    readonly:true,
+        show:false
   }
+  	UserModel.getUserInfo(this.props.currentUser)
+  		.then(res=>{
+  			this.setState({
+  				username:res.data[1].username,
+  				profile_name:res.data[1].profile_name,
+  				city:res.data[1].city,
+  				currentCity:{label:res.data[0].name,value:res.data[0]._id}
+  			})
+  		})
+  		.catch(err=>{
+  			console.log(err)
+  		})
+	CityModel.getAllCities()
+    .then(res=>{
+      let citiesArray=res.data.map(city=>(
+            {label:city.name,value:city._id}
+        ))
+        this.setState({
+          cities:citiesArray
+        })
+      })
+    .catch(err=>console.log(err))
+
+
+    PostModel.getPostById(this.props.currentUser)
+      .then(res=>{
+        console.log("post -------------------------")
+        console.log(res.data)
+        // let postArray=res.data.map(post=>(
+        //     post.title
+        //   ))
+        this.setState({
+          //posts:postArray
+          posts:res.data
+        })
+      })
+      .catch(err=>console.log(err))
+
+
+
 	}
 
 
 handleSubmit = (event) => {
-    console.log("submit");
+    event.preventDefault()
+    UserModel.update(this.state)
+    	.then(res=>{
+    		window.location.reload(false);
+    	})
+    	.catch(err=>console.log(err))
+        event.preventDefault()
   }
 
   handleChange = (event) => {
@@ -31,12 +88,38 @@ handleSubmit = (event) => {
     })
   }
 
+  handleSelectChange=(event)=>{
+    this.setState({
+      'city':event.value
+    })
+
+  }
+
   handleEdit=(event)=>{
   	console.log("edit")
   	this.setState({
   	readonly:false
   	})
   }
+
+  handleClick=(event)=>{
+    console.log(event.target.id)
+    event.preventDefault()
+
+    console.log("here ----------------")
+    this.setState({
+      select:event.target.id,
+      show:true
+    })
+    return(<h1>inside click</h1>)
+
+  }
+
+  handleClose=()=>{
+  this.setState({
+    show:false
+  })
+}
 
 
 
@@ -52,13 +135,25 @@ handleSubmit = (event) => {
 				  edit
 				</button>
 				)
+			const CitySelect=()=>(
+				<Select value={this.state.city} onChange={this.handleSelectChange}  options={this.state.cities} focusedOption={this.state.currentCity}  placeholder= 'city' />
+				)
+      const Show=(props)=>(
+        <Modal show={this.state.show} onHide={this.handleClose}>
+      <h2>{props.title}</h2>
+    
+      <div>{props.content}</div>
+      {/*<h1>Test Modal</h1>*/}
+     
+
+    </Modal>
+      )
+
+       
 
 
 		return (
 			<div>
-			<p>
-			{this.props.currentUser}
-			</p>
 
 	<div className="container mt-4">
         <div className="row">
@@ -79,26 +174,31 @@ handleSubmit = (event) => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="name">Profile_name</label>
+                <label htmlFor="name">You name</label>
                 <input onChange={this.handleChange} className="form-control form-control-lg" type="text" id="profile_name" name="profile_name" value={this.state.profile_name} readOnly={this.state.readonly} />
               </div>
               <div className="form-group">
-{/*                <label htmlFor="name">City</label>
-               <input onChange={this.handleChange} className="form-control form-control-lg" type="text" id="city" name="city" value={this.state.city} />*/}
-{/*                  <select value={this.state.city}  onChange={this.handleSelectChange}>
-                  {options.map(e=>(
-                      <option value={e.value}>{e.lable}</option>
-                    ))}
-            </select>*/}
-                {/*<Select value={this.state.city} onChange={this.handleSelectChange}  options={options} placeholder= 'city'/>*/}
+              	{this.state.readonly?<label>{this.state.currentCity.label}</label>:<CitySelect />}
+
               </div>
              {this.state.readonly?null:<Button />}
              {this.state.readonly?<EditButton />:null}
 
             </form>
+            <div>
+              {this.state.posts.map((post)=>(
+                <>
+                <a id={post._id} href="#" onClick={this.handleClick}>{post.title}<br/></a>
+                {this.state.select==post._id?<Show title={post.title} content={post.content}/>:null}
+               
+                </>
+              )) }
+            </div>
+
           </div>
         </div>
       </div>
+      
       </div>
 		);
 	}

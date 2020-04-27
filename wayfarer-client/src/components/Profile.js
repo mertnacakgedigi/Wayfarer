@@ -154,7 +154,6 @@ handleSubmit = (event) => {
 
 		return (
 			<div>
-        <h1>{this.props.currentUser}</h1>
 
 	<div className="container mt-4">
         <div className="row">

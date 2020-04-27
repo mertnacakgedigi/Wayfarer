@@ -50,8 +50,10 @@ export default class Cities extends React.Component {
 }
 
 handleAddButton=()=>{
+	
 	this.setState({
-		showNew:true
+		showNew:true,
+		
 	})
 }
 
@@ -130,6 +132,12 @@ handleDelete=(post)=>{
 }
 
 
+
+
+
+
+
+
 	render() {
 		const CityDetail=()=>(
 	
@@ -167,8 +175,13 @@ handleDelete=(post)=>{
 											<p>
 											{post.content}
 											</p>
+											{post.user===this.props.currentUser?
+											<>
 											<button id="editBtn" class="btn btn-sm btn-info info-review float-right mr-2" type="button" onClick={()=>{this.handleEditClick(post)}}>Edit post</button>
-						          			<button id="deleteBtn" class="btn btn-sm btn-danger delete-review float-right mr-2" type="button" onClick={()=>{this.handleDelete(post)}}>Delete post</button>
+						          			<button id="deleteBtn" class="btn btn-sm btn-danger delete-review float-right mr-2" type="button" onClick={()=>{if (window.confirm('Are you sure you wish to delete this post?')) this.handleDelete(post)}}>Delete post</button>
+											</>
+											:null
+											}
 											</article>
 											
 										</div>
@@ -255,7 +268,7 @@ handleDelete=(post)=>{
 				<div className="col">
 			  {this.state.selectCity?<CityDetail />:null}
 			    </div>
-			    <AddPost />
+			   <AddPost />
 			    <EditPost />
 			</div>
 		);

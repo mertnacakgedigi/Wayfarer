@@ -21,6 +21,7 @@ export default class Profile extends React.Component {
 		    profile_name:'',
 		    city:'',
 		    currentCity:'',
+        date:'',
 		    cities:[],
         posts:[],
         select:'',
@@ -33,6 +34,7 @@ export default class Profile extends React.Component {
   				username:res.data[1].username,
   				profile_name:res.data[1].profile_name,
   				city:res.data[1].city,
+          date:res.data[1].createdAt,
   				currentCity:{label:res.data[0].name,value:res.data[0]._id}
   			})
   		})
@@ -176,6 +178,10 @@ handleSubmit = (event) => {
               <div className="form-group">
                 <label htmlFor="name">You name</label>
                 <input onChange={this.handleChange} className="form-control form-control-lg" type="text" id="profile_name" name="profile_name" value={this.state.profile_name} readOnly={this.state.readonly} />
+              </div>
+              <div>
+              <label>Join at:</label>
+                <label>{new Date(this.state.date).getMonth()+1}-{new Date(this.state.date).getDate()}-{new Date(this.state.date).getFullYear()}</label>
               </div>
               <div className="form-group">
               	{this.state.readonly?<label>{this.state.currentCity.label}</label>:<CitySelect />}

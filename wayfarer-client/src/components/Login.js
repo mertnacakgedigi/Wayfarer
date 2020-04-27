@@ -3,11 +3,22 @@ import { Modal } from 'react-bootstrap';
 import UserModel from '../models/user'
 
 class Login extends Component {
-  state = {
+  constructor(props) {
+    super(props);
+    this.state = {
     username: '',
     password: '',
     show:true
+      }
+      this.setState({
+        show:this.props.show
+      })
   }
+
+
+
+
+  
 
   handleChange = (event) => {
     this.setState({
@@ -25,9 +36,8 @@ class Login extends Component {
       .catch((err) => console.log(err))
   }
   handleClose=()=>{
-  this.setState({
-    show:false
-  })
+
+  this.props.history.push('/home')
 }
 
   render() {

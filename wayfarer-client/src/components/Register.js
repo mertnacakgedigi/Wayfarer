@@ -72,9 +72,7 @@ class Register extends Component {
 
   
 handleClose=()=>{
-  this.setState({
-    show:false
-  })
+this.props.history.push('/home')
 }
 
 

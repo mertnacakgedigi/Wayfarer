@@ -27,9 +27,6 @@ export default class Cities extends React.Component {
 		}
 	CityModel.getAllCities()
     .then(res=>{
-      // let citiesArray=res.data.map(city=>(
-      //       {label:city.name,value:city._id}
-      //   ))
 
         this.setState({
           cities:res.data
@@ -41,7 +38,8 @@ export default class Cities extends React.Component {
 	}
 
 	handleClick=(city)=>{
-		//console.log(city)
+		console.log(city.posts)
+		city.posts.sort((a,b)=>(a.updatedAt>b.updatedAt)?-1:1)
 		this.setState({
 			selectCity:city
 		})

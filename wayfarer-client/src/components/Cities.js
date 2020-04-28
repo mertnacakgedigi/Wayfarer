@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
+import { Link, NavLink } from 'react-router-dom';
+
+
 
 import AddPost from './AddPost';
 import EditPost from './EditPost';
@@ -18,6 +21,7 @@ export default class Cities extends React.Component {
 		super(props);
 		this.state={
 			cities:[],
+			selectCityId:'',
 			selectCity:'',
 			selectPost:'',
 			post_title:'',
@@ -29,13 +33,32 @@ export default class Cities extends React.Component {
     .then(res=>{
 
         this.setState({
-          cities:res.data
+          cities:res.data,
+          selectCityId:"test"
         })
       })
     .catch(err=>console.log(err))
 
+    
 
 	}
+
+
+componentDidUpdate(prevprops,prevstate){
+	if(prevstate.selectCityId!==this.props.match.params.id){
+	this.setState({
+		selectCityId:this.props.match.params.id
+		})
+	if(this.state.selectCityId){
+			for(let city in this.state.cities){
+				if(this.state.cities[city]._id===this.state.selectCityId) this.setState({selectCity:this.state.cities[city]})
+					else console.log("false")
+			}
+		}
+	}
+	
+}
+
 
 	handleClick=(city)=>{
 		console.log(city.posts)
@@ -141,6 +164,7 @@ handleDelete=(post)=>{
 
 
 	render() {
+		
 		const CityDetail=()=>(
 	
 			<div class="container">
@@ -254,8 +278,8 @@ handleDelete=(post)=>{
 					  <div className="row gamerow" id="#">
 
 					    <div className="col-sm">
-					     <h2> <a className="nav-link" id={city._id} href="#" onClick={()=>{ this.handleClick(city)}}>{city.name}</a></h2>
-					     
+					{/*   <h2> <a className="nav-link" id={city._id} href="#" onClick={()=>{ this.handleClick(city)}}>{city.name}</a></h2> */}
+					      <NavLink className="nav-link" to={"/cities/"+city._id}>{city.name}</NavLink>
 					    </div>
 					  </div>
 					  
@@ -265,7 +289,9 @@ handleDelete=(post)=>{
 				))}
 			</div>
 				<div className="col">
-			  {this.state.selectCity?<CityDetail />:null}
+			 {this.state.selectCity?<CityDetail />:null} 
+			   {/*<CityRoutes currentUser={this.state.currentUser} 
+            setCurrentUser={this.setCurrentUser} />*/}
 			    </div>
 			   <AddPost showNew={this.state.showNew} handleAddClose={this.handleAddClose} handleAddPostSubmit={this.handleAddPostSubmit} handleChange={this.handleChange} post_title={this.state.post_title} post_content={this.state.post_content} />
 			    <EditPost showEdit={this.state.showEdit} handleEditClose={this.handleEditClose} handleEditSubmit={this.handleEditSubmit} handleChange={this.handleChange} post_title={this.state.post_title} post_content={this.state.post_content}/>

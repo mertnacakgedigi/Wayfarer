@@ -34,7 +34,7 @@ import Modal from 'react-responsive-modal';
               { this.props.currentUser ? 
                 <>
                   <li className="nav-item">
-                    <NavLink className="nav-link" to="/Cities">Cities</NavLink>
+                    <NavLink className="nav-link" to="/cities">Cities</NavLink>
                   </li>
                   <li className="nav-item">
                     <NavLink className="nav-link" to="/profile">Profile</NavLink>

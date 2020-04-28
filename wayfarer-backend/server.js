@@ -8,7 +8,7 @@ const MongoStore = require('connect-mongo')(session)
 const morgan = require('morgan')
 const cors = require('cors')
 require('dotenv').config()
-
+const PORT = process.env.PORT || 3001;
 
 
 // Middleware
@@ -57,4 +57,6 @@ app.use('/api/v1/', routes.api)
 
 // Server start
 
-app.listen(process.env.PORT || 3001)
+app.listen(PORT, () => {
+    console.log(`Server is running at localhost:${PORT}`)
+})

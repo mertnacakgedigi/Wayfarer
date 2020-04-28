@@ -47,7 +47,7 @@ body {
     padding-right: 85px;
 }
 a {
-    color: #ff5108;
+    color:  #dd5218;
     font-size: 17px;
     outline: none;
 }
@@ -156,7 +156,7 @@ nav.navbar {
 .navbar-default .navbar-nav  .active > a, 
 .navbar-default .navbar-nav  .active > a:hover, 
 .navbar-default .navbar-nav  .active > a:focus {
-    color: #ff5108;
+    
     background: none;
 }
 

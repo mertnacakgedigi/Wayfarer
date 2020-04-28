@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import Modal from 'react-responsive-modal';
+import './Navbar.css';
 
 
 
@@ -18,8 +19,8 @@ import Modal from 'react-responsive-modal';
 	render() {
     
 		return (
-      <>
-			<nav className="navbar navbar-expand-md">
+      <div className="mynav">
+			<nav className="navbar navbar-expand-md ">
 		<div className="container">
           <Link className="navbar-brand"  to="/">Wayfarer</Link>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +62,7 @@ import Modal from 'react-responsive-modal';
 
 			</nav>
 
-            </>
+            </div>
 		);
 	}
 }

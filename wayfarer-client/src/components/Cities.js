@@ -9,6 +9,7 @@ import EditPost from './EditPost';
 
 import CityModel from '../models/city';
 import PostModel from '../models/post';
+import './cities.css'
 
 const TestOutPut=()=>(
 	<h1>Test output</h1>
@@ -180,11 +181,16 @@ handleDelete=(post)=>{
 					      Has {this.state.selectCity.posts.length} {this.state.selectCity.posts.length === 1 ? ' post' : ' posts'} 
 					    </div>
 					    
-
-					  </div>
-					  <button onClick={this.handleAddButton}>
+					 </div>
+					  	<br></br>
+						<br></br>
+						
+					  <button className = "mybtn" onClick={this.handleAddButton}>
 							  add post
 							</button>
+							<br></br>
+							<br></br>
+							
 
 												{/*will loop all the posts here*/}
 					<div>
@@ -209,9 +215,11 @@ handleDelete=(post)=>{
 											:null
 											}
 											</article>
+											<br></br>
 											
 										</div>
 									</div>
+									<br></br>
 
 								</div>
 
@@ -288,13 +296,19 @@ handleDelete=(post)=>{
 
 				))}
 			</div>
+			<br></br>
+
+			
+			
 				<div className="col">
 			 {this.state.selectCity?<CityDetail />:null} 
 			   {/*<CityRoutes currentUser={this.state.currentUser} 
             setCurrentUser={this.setCurrentUser} />*/}
 			    </div>
 			   <AddPost showNew={this.state.showNew} handleAddClose={this.handleAddClose} handleAddPostSubmit={this.handleAddPostSubmit} handleChange={this.handleChange} post_title={this.state.post_title} post_content={this.state.post_content} />
-			    <EditPost showEdit={this.state.showEdit} handleEditClose={this.handleEditClose} handleEditSubmit={this.handleEditSubmit} handleChange={this.handleChange} post_title={this.state.post_title} post_content={this.state.post_content}/>
+			   <br></br>
+			   <br></br>
+				<EditPost showEdit={this.state.showEdit} handleEditClose={this.handleEditClose} handleEditSubmit={this.handleEditSubmit} handleChange={this.handleChange} post_title={this.state.post_title} post_content={this.state.post_content}/>
 			</div>
 		);
 	}

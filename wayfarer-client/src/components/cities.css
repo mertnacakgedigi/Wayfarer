@@ -1,0 +1,18 @@
+.mybtn {
+    border-radius: 50px;
+    border-style: groove;
+    border-color: cornflowerblue;
+    background-color: blue;
+    color: beige;
+}
+
+
+.img-thumbnail {
+    border-radius: 15px;
+    border-color: cyan;
+
+}
+
+body {
+    color: blue;
+}

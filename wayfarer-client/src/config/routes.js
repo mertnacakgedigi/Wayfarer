@@ -29,12 +29,20 @@ export default (props) => (
     <Route path="/register" component={ Register } />
 
 
-    <Route path="/cities" render={(routeProps)=>{
+    <Route exact path="/cities" render={(routeProps)=>{
       return <Cities 
                 { ...routeProps }
                 currentUser={props.currentUser}
                 setCurrentUser={props.setCurrentUser}
       />
     }} />
+    <Route path="/cities/:id" render={(routeProps)=>{
+      return <Cities 
+                { ...routeProps }
+                currentUser={props.currentUser}
+                setCurrentUser={props.setCurrentUser}
+      />
+    }} />
+
   </Switch>
 )

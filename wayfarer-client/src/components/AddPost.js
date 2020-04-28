@@ -8,7 +8,7 @@ import { Modal } from 'react-bootstrap';
 		          <h4 className="mb-4">New review</h4>
 		          <div className="form-group">
 		            <label for="title">Title</label>
-		            <input id="title" type="text" name="post_title" className="form-control form-control-lg" onChange={props.handleChange}  />
+		            <input id="title" type="text" name="post_title" className="form-control form-control-lg" onChange={props.handleChange} maxlength="10" />
 		          </div>
 		          <div className="form-group">
 		            <label for="content">Content</label>

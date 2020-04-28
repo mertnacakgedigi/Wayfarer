@@ -81,7 +81,7 @@ this.props.history.push('/')
 
   render() {
    
-  console.log(this.state.cities)
+  //console.log(this.state.cities)
 
     return (
 

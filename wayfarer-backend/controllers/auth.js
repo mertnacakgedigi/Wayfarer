@@ -20,7 +20,7 @@ const register = (req, res) => {
             
         
 
-        if(foundUser) return res.status(400).json({
+        if(foundUser) return res.status(400).send({
             status : 400,
             message : 'This name already exists. Please try with new one '
         })

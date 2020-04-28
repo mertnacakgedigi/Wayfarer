@@ -8,6 +8,7 @@ import AddPost from './AddPost';
 import EditPost from './EditPost';
 
 import CityModel from '../models/city';
+import UserModel from '../models/user';
 import PostModel from '../models/post';
 import './cities.css'
 
@@ -27,6 +28,7 @@ export default class Cities extends React.Component {
 			selectPost:'',
 			post_title:'',
 			post_content:'',
+			username:'',
 			showNew:false,
 			showEdit:false
 		}
@@ -40,6 +42,17 @@ export default class Cities extends React.Component {
       })
     .catch(err=>console.log(err))
 
+    UserModel.getUserInfo(this.props.currentUser)
+  		.then(res=>{
+  			this.setState({
+  				username:res.data[1].username,
+
+  			})
+  		})
+  		.catch(err=>{
+  			console.log(err)
+  		})
+
     
 
 	}
@@ -51,8 +64,12 @@ componentDidUpdate(prevprops,prevstate){
 		selectCityId:this.props.match.params.id
 		})
 	if(this.state.selectCityId){
-			for(let city in this.state.cities){
-				if(this.state.cities[city]._id===this.state.selectCityId) this.setState({selectCity:this.state.cities[city]})
+			for(let city of this.state.cities){
+				if(city._id===this.state.selectCityId){
+					city.posts.sort((a,b)=>(a.updatedAt>b.updatedAt)?-1:1)
+				 this.setState({selectCity:city})
+
+				}
 					else console.log("false")
 			}
 		}
@@ -99,6 +116,10 @@ handleChange = (event) => {
 
 handleAddPostSubmit=(event)=>{
 	 event.preventDefault()
+	 if(this.state.post_title==''||this.state.post_title==null||this.state.post_content==''||this.state.post_content==null){
+	 	alert("Title and content cannot empty");
+    	return false;
+	 }
 	 let data={
 	 	cityId:this.state.selectCity._id,
 	 	title:this.state.post_title,
@@ -131,6 +152,10 @@ handleEditClose=()=>{
 
 handleEditSubmit=(event)=>{
 	event.preventDefault()
+	if(this.state.post_title==''||this.state.post_title==null||this.state.post_content==''||this.state.post_content==null){
+	 	alert("Title and content cannot empty");
+    	return false;
+	 }
 	let data={
 		cityId:this.state.selectCity._id,
 		postId:this.state.selectPost._id,
@@ -170,14 +195,15 @@ handleDelete=(post)=>{
 	
 			<div class="container">
 					  <div className="row gamerow" id="#">
-					    <div class="col-sm">
+					    <div className="col-sm">
 					      <img src={this.state.selectCity.image} class="img-thumbnail" alt={this.state.selectCity.name} />
 					    </div>
-					    <div class="col-sm">
+					    <div className="col-sm">
 					     <h2>{this.state.selectCity.name}</h2>
+					     <h4>{this.state.selectCity.description}</h4>
 					     
 					    </div>
-					    <div class="col-sm">
+					    <div className="col-sm">
 					      Has {this.state.selectCity.posts.length} {this.state.selectCity.posts.length === 1 ? ' post' : ' posts'} 
 					    </div>
 					    
@@ -196,15 +222,15 @@ handleDelete=(post)=>{
 					<div>
 						{this.state.selectCity.posts.map((post)=>(
 								<div class="container" >
-									<div class="row">
+									<div class="row border border-primary">
 										<div class="col-6 col-md-4" id={post.user}>
-											<h5>username</h5>
+											<h5>{post.user?(post.user===this.props.currentUser?this.state.username:post.user.substring(0,3)+'*'):'username'}</h5>
 										
 										</div>
 										<div class="col-12 col-md-8" id={post._id}>
 											<article >
-											<h5>{post.title}</h5>
-											<p>
+											<h5 className="text-center">{post.title}</h5>
+											<p className="text-center">
 											{post.content}
 											</p>
 											{post.user===this.props.currentUser?
@@ -300,7 +326,7 @@ handleDelete=(post)=>{
 
 			
 			
-				<div className="col">
+				<div className="col-6">
 			 {this.state.selectCity?<CityDetail />:null} 
 			   {/*<CityRoutes currentUser={this.state.currentUser} 
             setCurrentUser={this.setCurrentUser} />*/}

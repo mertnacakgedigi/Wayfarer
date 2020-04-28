@@ -57,6 +57,4 @@ app.use('/api/v1/', routes.api)
 
 // Server start
 
-app.listen(3001, () => {
-    console.log("Server is running at localhost:3001")
-})
+app.listen(process.env.PORT || 3001)
